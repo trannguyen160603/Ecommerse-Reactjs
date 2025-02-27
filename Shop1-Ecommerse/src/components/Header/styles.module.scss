@@ -1,0 +1,62 @@
+@import '@styles/__mixin.module.scss';
+@import '@styles/__variable.module.scss';
+
+.container{
+    @include flex_box_custom(center, center, 0px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.containerHeader{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 83px;
+    width: 1250px;
+}
+
+.containerBoxIcon{
+    @include flex_box_custom(center, center, 10px);
+
+}
+.containerBox{
+    @include flex_box_custom(center, center, 20px);
+}
+.containerMenu{
+    @include flex_box_custom(center, center, 30px);
+    cursor: pointer;
+    color: #888;
+}
+.boxIconItem{
+    width: 26px;
+    height: 26px;
+}
+.boxIcon{
+    @include radius_common(50%);
+    @include flex_box_custom(center, center, 0px);
+    background-color: $primary-color;
+    width: 26px;
+    height: 26px;
+}
+.menu{
+    cursor: pointer;
+    padding-top: 7px;
+}
+.menu::after{
+    content:" ";
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin-top: 5px;
+    background-color: $primary-color;
+    transform: scale(0);
+    transform-origin: right;
+    transition: transform 300ms, opacity 500ms;
+    opacity: 0;
+}
+
+.menu:hover::after{
+    transform: scale(1);
+    opacity: 1;
+}

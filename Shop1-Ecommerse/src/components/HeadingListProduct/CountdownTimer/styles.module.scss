@@ -1,0 +1,23 @@
+@import '@styles/__variable.module.scss'; // Nếu có file chứa biến màu sắc
+@import '@styles/__mixin.module.scss';
+
+.countdownContainer {
+    @include flex_box_custom(center, center, 10px);
+
+    background: transparent ; // Màu nền chính (có thể đổi)
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    margin-top: 140px;
+}
+
+.countdownItem {
+    background: $white-color;
+    color: $primary-color;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

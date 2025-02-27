@@ -1,0 +1,47 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+.container{
+    @include flex_box_custom(space-between,center, 10px)
+}
+
+.containerItem{
+    @include flex_box_custom(center,center, 10px)
+}
+
+.containerItemImg{
+    background-image: url('https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/photo-of-man-wearing-white-hoodie-5474310.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 409px;
+    width: calc(100%/ 2);
+}
+.containerTimer{
+    @include flex_box_custom(center, center, 10px)
+
+}
+
+.title{
+    color: $four-color;
+    font-size: 25px;
+    text-align: center;
+
+}
+.boxBtn{
+    text-align: center;
+    color:#E9E6E3;
+    background-color: $primary-color;
+    display: block;
+    margin: 20px auto 0;
+    padding: 13px 45px;
+    font-size:  14px;
+    border-radius:  10px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+}
+
+.boxBtn:hover{
+    background-color: transparent;
+    color:$primary-color;
+}

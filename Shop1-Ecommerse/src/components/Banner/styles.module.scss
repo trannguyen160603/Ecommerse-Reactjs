@@ -1,0 +1,34 @@
+@import '@styles/__mixin.module.scss';
+@import '@styles/__variable.module.scss';
+
+
+
+.container{
+@include flex_box_custom(center, center, 0px);
+
+    background-color: #E9E6E3;
+    background-image: url(../../assets/Images/Banner.jpeg);
+    min-height: 750px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.content{
+@include flex_box_custom(center, center, 10px);
+
+    flex-direction: column;
+}
+
+.des{
+    color:#E9E6E3;
+    background-color: $primary-color;
+    margin-top: 20px;
+    padding: 13px 45px;
+    font-size:  14px;
+    border-radius:  10px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+}
+.des:hover{
+    background-color: transparent;
+    color:$primary-color;
+}
