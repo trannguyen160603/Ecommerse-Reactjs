@@ -1,0 +1,48 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+.container{
+    margin-top: 200px;
+    @include flex_box_custom(space-between, center, 10px);
+}
+
+.containerContent{
+    flex-direction: column;
+
+}
+
+.title{
+    color: $primary-color;
+    font-size: 35px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.content{
+    color: $second-color;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 250;
+    line-height: 30px;
+}
+.btn{
+    background-color: $white-color;
+    color: $primary-color;
+    padding: 10px 40px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    align-items: center;
+    display: block;
+    margin: auto;
+    border: 1px solid $primary-color;
+
+    &:hover{
+        background-color: $primary-color;
+        color: $white-color;
+    }
+}
+

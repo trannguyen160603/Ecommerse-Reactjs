@@ -1,0 +1,38 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+
+.container{
+    padding: 30px 20px 0 20px;
+
+    .title{
+        font-size: 18px;
+        color: $primary-color;
+        text-align: center;
+        margin-bottom: 30px;
+
+     }   
+     .boxRemember{
+        input{
+            margin-right: 10px;
+        }
+        span{
+            font-size: 14px;
+            color: $second-color;
+            }
+     }
+     .loginBtn{
+        margin: 10px 0;
+     }
+     .lostPassword{
+        a{
+            color: $primary-color;
+            text-decoration: none;
+            font-size: 14px;
+            color:$second-color;
+            margin-top: 15px;
+
+            @include flex_box_custom(center, center, 0px);
+        }
+     }
+}

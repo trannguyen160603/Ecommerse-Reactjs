@@ -13,7 +13,7 @@ function AdvanceHeadling() {
                 </div>
                 <div className={headLine}></div>
             </div>
-            <HeadingListProduct />
+            {/* <HeadingListProduct /> */}
         </MainLayout>
     );
 }

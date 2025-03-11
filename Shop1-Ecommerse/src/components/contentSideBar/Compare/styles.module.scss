@@ -1,0 +1,11 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+.container{
+    @include flex_box_custom(space-between,unset , 0px);
+    flex-direction: column;
+    padding: 30px 20px 0px 20px; 
+    height: 95%;
+
+    
+}

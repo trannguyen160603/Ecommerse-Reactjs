@@ -1,0 +1,20 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+.container{
+    @include flex_box_custom(center, center, 7px);
+    flex-direction: column;
+    margin: 20px;
+    color: $thr_color;
+
+    .headIcon{
+        font-size: 25px;
+
+    }
+    
+    .headTitle{
+        font-size: 18px;
+        font-weight: 350;
+        
+    }
+}

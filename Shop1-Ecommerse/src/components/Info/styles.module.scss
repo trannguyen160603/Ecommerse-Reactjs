@@ -1,10 +1,12 @@
 @import '@styles/__variable.module.scss';
 @import '@styles/__mixin.module.scss';
 
+
 .container{
     background-color:$primary-color ;
     margin-top: -50px;
     padding: 20px 50px ;
+
     @include flex_box_custom(space-between, center, 0px)
 }
 

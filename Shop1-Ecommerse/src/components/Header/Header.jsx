@@ -3,16 +3,35 @@ import { dataBoxIcon, dataMenu } from './constants';
 import Menu from './Menu/Menu';
 import styles from './styles.module.scss';
 import logo from '@icon/Images/logo-retina.png';
-import reloadIcon from '@icon/svgs/reloadIcon.svg';
-import heart from '@icon/svgs/heart.svg';
-import cart from '@icon/svgs/cart.svg';
+import { TfiReload } from "react-icons/tfi";
+import { PiShoppingCartLight } from "react-icons/pi";
+import { BsHeart } from "react-icons/bs";
 
-
+import useScrollHandling from '@/Hooks/useScrollHandling';
+import { useEffect, useState, useContext } from 'react';
+import classNames from 'classnames';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 function MyHeader() {
-    const { containerBoxIcon, containerMenu, containerHeader, containerBox , boxIconItem, container} =
+    const { containerBoxIcon, containerMenu, containerHeader, containerBox , boxIconItem, container, topHeader, fixedHeader} =
         styles;
+
+        const {scrollPosition} = useScrollHandling();
+        const [fixedPosition, seFixedPosition] = useState(false);
+        //biến bật tắt sidebar
+        const { isOpen, setIsOpen, type, setType } = useContext(SideBarContext);
+
+        const handleOpenSideBar = (type) =>{
+            setIsOpen(true);
+            setType(type);
+        }
+
+        useEffect(() =>{
+                seFixedPosition(scrollPosition > 80 ? true : false);
+        }, [scrollPosition]);
     return (
-        <div className={container}>
+        <div className={classNames(container, topHeader,{
+            [fixedHeader]: fixedPosition  // Nếu fixedPosition = true thì class fixedHeader sẽ được thêm vào containerHeader
+        })}>
         <div className={containerHeader}>
             <div className={containerBox}>
                 <div className={containerBoxIcon}>
@@ -28,7 +47,7 @@ function MyHeader() {
                     listStyleType:"none",
                 }}> 
                     {dataMenu.slice(0, 3).map(item => {
-                        return <Menu content={item.content} href={item.href} />;
+                        return <Menu content={item.content} href={item.href} setIsOpen={setIsOpen}/>;
                     })}
                 </div>
             </div>
@@ -50,9 +69,15 @@ function MyHeader() {
                 </div>
 
                 <div className={containerBoxIcon}>
-                    <img className={boxIconItem} src={reloadIcon} alt="reloadIcon" />
-                    <img className={boxIconItem} src={heart} alt="heartIcon" />
-                    <img className={boxIconItem} src={cart} alt="cartIcon " />
+                    <TfiReload style={{fontSize:"20px", cursor:"pointer"}}
+                    onClick={() => handleOpenSideBar('compare')}
+                    />
+                    <BsHeart style={{fontSize:"20px",  cursor:"pointer"}}
+                    onClick={() => handleOpenSideBar('Wishlist')}
+                    />
+                    <PiShoppingCartLight style={{fontSize:"25px" ,cursor:"pointer"}}
+                    onClick={() => handleOpenSideBar('cart')}  // Click vào Cart Icon để mở Sidebar với type = cart  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
+                    />
                 </div>
             </div>
         </div>

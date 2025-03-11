@@ -3,11 +3,27 @@
 
 .container{
     @include flex_box_custom(center, center, 0px);
-    position: absolute;
-    top: 0;
     left: 0;
     right: 0;
 }
+
+.topHeader{
+    position: absolute;
+    top: 0;
+    
+}
+.fixedHeader{
+    position: fixed;
+    top: -82px;
+    
+    background-color: #FFFFFFE6;
+    box-shadow: 2px 0px 12px 0px rgba(0, 0, 0, 0.15);
+    z-index: 999;
+    transform: translateY(82px);
+    transition: transform 0.7s ease;
+}
+
+
 .containerHeader{
     display: flex;
     align-items: center;
@@ -17,7 +33,7 @@
 }
 
 .containerBoxIcon{
-    @include flex_box_custom(center, center, 10px);
+    @include flex_box_custom(center, center, 15px);
 
 }
 .containerBox{

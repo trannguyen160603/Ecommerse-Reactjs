@@ -1,0 +1,8 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+.container{
+    margin-top: 70px;
+    flex-wrap: wrap;
+    @include flex_box_custom(space-between, center, 10px);
+}

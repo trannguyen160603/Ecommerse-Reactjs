@@ -2,7 +2,8 @@
 @import '@styles/__mixin.module.scss';
 
 .container{
-    @include flex_box_custom(space-between,center, 10px)
+    @include flex_box_custom(space-between,center, 10px);
+    margin-top: 90px;
 }
 
 .containerItem{

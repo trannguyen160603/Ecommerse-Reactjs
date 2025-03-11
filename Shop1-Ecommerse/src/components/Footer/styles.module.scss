@@ -1,0 +1,64 @@
+@import '@styles/__mixin.module.scss';
+@import '@styles/__variable.module.scss';
+
+
+.container{
+    @include flex_box_custom(space-between, center, 0px);
+    background-color: $primary-color;
+    flex-direction: column;
+    margin-top:100px ;
+}
+
+.containerImg{
+    @include flex_box_custom(center, center, 10px);
+    margin: 35px 0;
+   
+}
+.containerImg img{
+    width: 180px;
+    height: auto;
+}
+
+.menu{
+    @include flex_box_custom(space-between, center,40px);
+    color: $white-color;
+    font-size: 15px;
+    font-weight: 350;
+    line-height: 20px;
+    text-transform: capitalize;
+    
+    .menuItem {
+        cursor: pointer;
+        &:hover {
+            color: $four-color;
+        }
+    }
+}
+
+.titleFooter{
+    color: $white-color;
+    font-size: 16px;
+    margin-top: 35px;
+    text-align: center;
+}
+.iconFooter{
+    margin-top:20px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.copyright {
+    text-align: center;
+    font-size: 16px;
+    color: $white-color;
+    margin: 35px 0;
+    font-weight: 350;
+
+    
+    a {
+        color:$white-color;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
