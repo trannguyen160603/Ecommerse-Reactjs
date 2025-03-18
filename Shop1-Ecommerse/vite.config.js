@@ -1,4 +1,3 @@
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
@@ -12,22 +11,31 @@ export default defineConfig({
       '@components': path.resolve(__dirname, 'src/components'),
       '@styles': path.resolve(__dirname, 'src/assets/styles'),
       '@icon': path.resolve(__dirname, 'src/assets/icon'),
-    }
-  },
-  optimizeDeps: {
-    exclude: ['js-cookie'], // Loại bỏ js-cookie khỏi tối ưu hóa
+      '@pages': path.resolve(__dirname, 'src/pages'),
+    },
   },
   server: {
+    proxy: {
+      '/api': {
+        target: 'https://be-project-reactjs.onrender.com',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, '/api/v1'),
+      },
+    },
     watch: {
-      usePolling: true, // Đảm bảo Vite theo dõi file thay đổi chính xác
+      usePolling: true,
     },
     hmr: {
-      overlay: false, // Tắt overlay lỗi khi hot reload
+      overlay: false,
     },
   },
+  optimizeDeps: {
+    exclude: ['js-cookie'],
+  },
   build: {
-    sourcemap: true, // Hỗ trợ debug tốt hơn
-    emptyOutDir: true, // Xoá thư mục `dist` trước khi build mới
-    outDir: 'dist', // Đảm bảo build ra thư mục chuẩn
-  }
+    sourcemap: true,
+    emptyOutDir: true,
+    outDir: 'dist',
+  },
 });

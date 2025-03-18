@@ -13,6 +13,7 @@
         height: 90px;
     }
 
+    
     .boxClose{
         position: absolute;
         top: 10px;
@@ -44,6 +45,16 @@
         }
         
 
+    }
+    .overlayLoading{
+        @include flex_box_custom(center, center, 0px);
+        
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.5);
     }
 
     &:hover{

@@ -58,6 +58,18 @@
 .menu{
     cursor: pointer;
     padding-top: 7px;
+    font-size: 14px ;
+    position: relative;
+    color: $primary-color;
+
+    .subMenu{
+        position: absolute;
+        background-color: #fff;
+        width: 100%;
+        padding: 10px;
+        top: 40px;
+
+    }
 }
 .menu::after{
     content:" ";
@@ -75,4 +87,21 @@
 .menu:hover::after{
     transform: scale(1);
     opacity: 1;
+}
+
+.boxCart{
+    position: relative;
+
+    .quantity{
+        position: absolute;
+        background-color: black;
+        color: #fff;
+        top:-5px;
+        font-size: 10px;
+        right:-5px;
+        @include radius_common(50%);
+        width: 15px;
+        height: 15px;
+        @include flex_box_custom(center, center, 0px);
+    }
 }

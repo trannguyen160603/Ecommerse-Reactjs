@@ -15,7 +15,12 @@ import {getProduct} from '@/apis/productService';
 function HomePage() {
     const [listProduct, setListProduct] = useState([]); 
     useEffect(() =>{
-        getProduct().then((res) =>{
+        const query = {
+            sortType: 0,
+            page:1,
+            limit:10
+        };
+        getProduct(query).then((res) =>{
             setListProduct(res.contents);
         });
     }, [])

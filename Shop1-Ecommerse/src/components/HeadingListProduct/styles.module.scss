@@ -18,8 +18,8 @@
     width: calc(100%/ 2);
 }
 .containerTimer{
-    @include flex_box_custom(center, center, 10px)
-
+    @include flex_box_custom(center, center, 10px);
+    margin-top:120px;
 }
 
 .title{

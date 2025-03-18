@@ -7,6 +7,8 @@ import { useContext, useEffect, useState } from 'react';
 import { ToastContext } from '@/contexts/ToastProvider'; 
 import { register , signIn, getInfo} from '@/apis/authService'; // Import hàm gọi API đăng ký
 import Cookies from 'js-cookie';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { StoreContext } from '@/contexts/storeProvider';
 
 
 function Login() {
@@ -15,6 +17,9 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false); // Trạng thái loading khi gọi API
     // Lấy hàm toast từ Context để hiển thị thông báo
     const { toast } = useContext(ToastContext);
+
+    const {setIsOpen, handleGetListProductCart} = useContext(SideBarContext)
+    const {setUserId} = useContext(StoreContext)
 
     // Sử dụng Formik để quản lý form
     const formik = useFormik({
@@ -56,21 +61,24 @@ function Login() {
                         setIsLoading(false);
                     });
             }
-            else {
+            if(!isRegister) {
                 // Nếu là đăng nhập
                 await signIn({ username, password })
                     .then((res) => {
-                        toast.success('Login successful'); // Thông báo đăng nhập thành công
                         setIsLoading(false);
                         const {id, token, refreshToken } = res.data;
+                        setUserId(id)
                         Cookies.set('token', token);
                         Cookies.set('refreshToken',refreshToken );
-                        console.log(res.data);
+                        Cookies.set('userId', id)
+                        toast.success('Sign in successfully')
+                        setIsOpen(false);
+                        handleGetListProductCart(id, 'cart');
                         
                     })
                     .catch((err) => {
-                        toast.error(err.response?.data?.message || "Login failed"); // Hiển thị lỗi
                         setIsLoading(false);
+                        toast.error(err.response?.data?.message || 'Sign in failed'); // Lấy lỗi chi tiết từ API nếu có
                     });
             }
 
@@ -82,10 +90,7 @@ function Login() {
         setIsRegister(!isRegister); // Đảo ngược trạng thái isRegister
     };
 
-    useEffect(() => {
-        getInfo()
-
-    }, [])
+    
 
     return (
         <div className={container}>

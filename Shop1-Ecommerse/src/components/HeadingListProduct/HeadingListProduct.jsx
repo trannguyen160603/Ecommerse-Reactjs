@@ -28,7 +28,8 @@ function HeadingListProduct({data}) {
                 src={item.images[0]}
                 prevSrc={item.images[1]}
                 name ={item.name}
-                price={item.price}/>);
+                price={item.price}/>)
+                details ={item}
             })}
             </div>
         </div>

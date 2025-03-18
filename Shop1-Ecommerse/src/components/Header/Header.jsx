@@ -12,13 +12,13 @@ import { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 function MyHeader() {
-    const { containerBoxIcon, containerMenu, containerHeader, containerBox , boxIconItem, container, topHeader, fixedHeader} =
+    const { containerBoxIcon, containerMenu, containerHeader, containerBox , boxIconItem, container, topHeader, fixedHeader, boxCart, quantity} =
         styles;
 
         const {scrollPosition} = useScrollHandling();
         const [fixedPosition, seFixedPosition] = useState(false);
         //biến bật tắt sidebar
-        const { isOpen, setIsOpen, type, setType } = useContext(SideBarContext);
+        const { isOpen, setIsOpen, type, setType, listProductCart } = useContext(SideBarContext);
 
         const handleOpenSideBar = (type) =>{
             setIsOpen(true);
@@ -75,10 +75,13 @@ function MyHeader() {
                     <BsHeart style={{fontSize:"20px",  cursor:"pointer"}}
                     onClick={() => handleOpenSideBar('Wishlist')}
                     />
+                    <div className={boxCart}>
                     <PiShoppingCartLight style={{fontSize:"25px" ,cursor:"pointer"}}
                     onClick={() => handleOpenSideBar('cart')}  // Click vào Cart Icon để mở Sidebar với type = cart  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
                     />
+                    <div className={quantity}>{listProductCart.length}</div>
                 </div>
+                    </div>
             </div>
         </div>
         </div>

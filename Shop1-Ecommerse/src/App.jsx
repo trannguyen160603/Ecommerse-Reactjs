@@ -7,15 +7,17 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import Sidebar from '@components/Sidebar/Sidebar';
 import { SideBarProvider } from '@/contexts/SideBarProvider';
 import { ToastProvider } from '@/contexts/ToastProvider';
+import { StoreProvider } from '@/contexts/storeProvider';
 function App() {
   return (
-
-   <ToastProvider>
-    <SideBarProvider>
+     //Cung cấp dữ liệu userInfo từ storeContext cho toàn bộ ứng dụng.
+    <StoreProvider> 
+      <ToastProvider>
+     <SideBarProvider> {/* Quản lý trạng thái sidebar (đóng/mở, loại sidebar đang hiển thị). */}
     <Sidebar />
     <BrowserRouter>
         <Suspense fallback={<div>loading</div>} >
-          <Routes>
+          <Routes> {/* render ra danh sách các routes*/ }
           {routers.map((item, index) =>{ 
             return (
               <Route
@@ -27,10 +29,10 @@ function App() {
           })}
           </Routes>
         </Suspense>
-   
     </BrowserRouter>  
    </SideBarProvider>
    </ToastProvider>
+    </StoreProvider>
     
   );
 }
