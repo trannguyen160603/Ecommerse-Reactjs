@@ -20,7 +20,7 @@
 
     .containerListProductCart{
         position: relative;
-        
+
         .overlayLoading{
             @include flex_box_custom(center, center, 0px);
             
@@ -32,7 +32,25 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     }
+    .boxEmpty{
+        text-align: center;
+        font-size: 14px;
+        color: $four-color;
+        margin-top: 30px;
 
+        .boxBtnEmpty{
+            width: 162px;
+            margin: 20px auto;
+        }
+    }
+    .containerListItem{
+        @include flex_box_custom(space-between, unset,0px);
 
-    
+        flex-grow: 1;
+        flex-direction: column;
+    }
+}
+
+.isEmpty{
+    justify-content: unset;
 }

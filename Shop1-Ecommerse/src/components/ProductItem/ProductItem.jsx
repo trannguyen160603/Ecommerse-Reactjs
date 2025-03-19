@@ -1,8 +1,8 @@
 import styles from './styles.module.scss';
-import reloadIcon from '@icon/svgs/reloadIcon.svg';
-import heart from '@icon/svgs/heart.svg';
-import cart from '@icon/svgs/cart.svg';
-import eyeIcon from '@icon/svgs/eyeIcon.svg';
+import { TfiReload } from "react-icons/tfi";
+import { PiShoppingCartLight } from "react-icons/pi";
+import { BsHeart } from "react-icons/bs";
+import { IoEyeOutline } from 'react-icons/io5';
 import cls from 'classnames';
 import MyButton from '@components/Button/Button';
 import { useContext, useState } from 'react';
@@ -10,7 +10,7 @@ import Cookies from 'js-cookie';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/CartService';
-import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+// import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 function ProductItem({
     src,
     prevSrc,
@@ -37,7 +37,7 @@ function ProductItem({
 
     const [sizeChoose, setSizeChoose] = useState('');
     const userId = Cookies.get('userId');
-    const { setIsOpen, setType, handleGetListProductCart } = useContext(SideBarContext);
+    const { setIsOpen, setType, handleGetListProductCart, setDetailProduct } = useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [ isLoading, setIsLoading ] = useState(false);
 
@@ -47,6 +47,11 @@ function ProductItem({
 
     const handleClearSize = size => {
         setSizeChoose('');
+    };
+    const handleShowDetailProductSideBar = () =>{
+        setIsOpen(true);
+        setType('detail');
+        setDetailProduct(details);
     };
 
     const handleAddToCart = async () => {
@@ -93,16 +98,16 @@ function ProductItem({
 
                 <div className={ShowFuncHover}>
                     <div className={boxIcon}>
-                        <img src={cart} alt='' />
+                        <PiShoppingCartLight style={{fontSize:'20px'}}/>
                     </div>
                     <div className={boxIcon}>
-                        <img src={heart} alt='' />
+                        <BsHeart/>
                     </div>
                     <div className={boxIcon}>
-                        <img src={reloadIcon} alt='' />
+                        <TfiReload/>
                     </div>
-                    <div className={boxIcon}>
-                        <img src={eyeIcon} alt='' />
+                    <div className={boxIcon} onClick={handleShowDetailProductSideBar}>
+                        <IoEyeOutline style={{fontSize:'20px'}}/>
                     </div>
                 </div>
                 {!isHomePage && (
@@ -154,13 +159,14 @@ function ProductItem({
                             <MyButton
                                 onClick={handleAddToCart}
                                 disabled={isLoading} // Ngăn bấm nút khi đang loading
-                                content={
-                                    isLoading ? (
-                                        <LoadingTextCommon />
-                                    ) : (
-                                        'ADD TO CART'
-                                    )
-                                }
+                                // content={
+                                //     isLoading ? (
+                                //         <LoadingTextCommon />
+                                //     ) : (
+                                //         'ADD TO CART'
+                                //     )
+                                // }
+                                content='ADD TO CART'
                             />
                         </div>
                     )}

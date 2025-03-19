@@ -52,16 +52,10 @@
 .boxIcon{
     width: 40px;
     height: 40px;
-
+    cursor: pointer;
+    
     @include flex_box_custom(center, center, 10px);
-
-    img{
-        width: 14px;
-        height: 14px;
-        object-fit: contain;
-        cursor: pointer;
-    }
-    &:hover img{
+    &:hover{
         transform: scale(1.2);
 
     }

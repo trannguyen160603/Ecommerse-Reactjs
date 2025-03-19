@@ -26,6 +26,13 @@
     z-index: 1001;
     transition: all 0.3s ease;
     transform: translateX(350px);
+    // Thêm thuộc tính này để sidebar có thể cuộn
+    overflow-y: auto;  
+    max-height: 100vh;
+}
+// Để ẩn thanh cuộn nhưng vẫn có thể cuộn bằng chuột
+.sidebar::-webkit-scrollbar {
+    width: 0px;
 }
 
 

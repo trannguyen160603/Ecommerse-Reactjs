@@ -65,21 +65,22 @@
 
     }
 
-    .selectBox{
-        border: 1px solid #e1e1e1;
-        padding: 5px;   
-        color: $second-color;
-        font-size: 14px;
-        font-weight: 350;
-        }
+    
     .selectBox.sort{
         width: 275px;
     }
-    .selectBox.show{
+   
+}
+.selectBox{
+    border: 1px solid #e1e1e1;
+    padding: 5px;   
+    color: $second-color;
+    font-size: 14px;
+    font-weight: 350;
+    }
+.selectBox.show{
         width: 83px;
     }
-}
-
 .containerProduct{
     @include flex_box_custom(space-between, flex-start, 15px);
 

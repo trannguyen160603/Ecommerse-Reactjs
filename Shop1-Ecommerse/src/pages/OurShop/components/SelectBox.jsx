@@ -1,6 +1,6 @@
 import styles from '../styles.module.scss';
 
-function SelectBpx({options, getValue, type}) {
+function SelectBox({options, getValue, type}) {
     const {selectBox} =styles;
     return (
         <select className={selectBox} onChange={e => getValue(e.target.value, type)}>
@@ -15,4 +15,4 @@ function SelectBpx({options, getValue, type}) {
     );
 }
 
-export default SelectBpx;
+export default SelectBox;

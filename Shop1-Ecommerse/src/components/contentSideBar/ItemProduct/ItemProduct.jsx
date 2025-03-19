@@ -3,7 +3,7 @@ import styles from './styles.module.scss';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useContext, useState } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
-import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+// import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 
 function ItemProduct(
     src,
@@ -49,7 +49,7 @@ function ItemProduct(
             </div>
             {isDelete && (
             <div className={overlayLoading}>
-                <LoadingTextCommon/>
+                {/* <LoadingTextCommon/> */}
             </div>
             )}
         </div>

@@ -6,7 +6,8 @@ import { IoCloseOutline } from 'react-icons/io5';
 import Login from '@components/contentSideBar/Login/Login';
 import Compare from '@components/contentSideBar/Compare/Compare';
 import Wishlist from '@components/contentSideBar/Wishlist/Wishlist';
-import Cart from '@components/contentSideBar/Cart/Cart';
+import Cart from '@components//contentSideBar/Cart/Cart';
+import DetailProduct from '@components/contentSideBar/DetailProduct/DetailProduct';
 function Sidebar() {
     const { container, sidebar, overlay, slideSidebar, boxIcon } = styles;
     const { isOpen, setIsOpen, type } = useContext(SideBarContext);
@@ -24,6 +25,8 @@ function Sidebar() {
                 return <Wishlist/>;
             case 'cart':
                 return <Cart/>;
+            case 'detail':
+                return <DetailProduct/>;
             default:
                 return null;
         }
