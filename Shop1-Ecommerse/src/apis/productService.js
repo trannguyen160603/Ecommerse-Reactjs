@@ -1,11 +1,22 @@
 import axiosClient from './axiosClient';
 
 const getProduct = async (query = {}) => { 
-    const { sortType, page, limit} = query; // Giá trị mặc định
-    const queryLimit = limit === 'All' ? '' : `limit=${limit}`;
-    const res = await axiosClient.get(`/product?sortType=${sortType}&page=${page}&${queryLimit}`);
-    
-    return res.data;
+    try {
+        const { sortType = 0, page = 1, limit = 10 } = query;
+        const queryLimit = limit === 'All' ? '' : `limit=${limit}`;
+        const url = `/product?sortType=${sortType}&page=${page}&${queryLimit}`;
+
+        const res = await axiosClient.get(url);
+
+        if (!res?.data) {
+            console.error("API trả về null hoặc không có dữ liệu");
+            return null;
+        }
+        return res.data;
+    } catch (error) {
+        console.error("Lỗi khi gọi API:", error.response?.status, error.message);
+        return null;
+    }
 };
 
 export { getProduct };

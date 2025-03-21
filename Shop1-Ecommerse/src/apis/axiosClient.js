@@ -1,12 +1,14 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
 const axiosClient = axios.create({
-    baseURL: '/api',
-    timeout: 10000, //mỗi một request gửi đến server thì sẽ có thời gian timeout nhất định nếu quá 10s sẽ lỗi
+    baseURL: '/api',  
+    timeout: 10000,
     headers: {
         'content-type': 'application/json'
     }
 });
+
 
 
 axiosClient.interceptors.request.use(

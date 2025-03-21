@@ -79,7 +79,7 @@ function MyHeader() {
                     <PiShoppingCartLight style={{fontSize:"25px" ,cursor:"pointer"}}
                     onClick={() => handleOpenSideBar('cart')}  // Click vào Cart Icon để mở Sidebar với type = cart  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
                     />
-                    <div className={quantity}>{listProductCart.length}</div>
+                    <div className={quantity}>{listProductCart ? listProductCart.length : 0}</div>
                 </div>
                     </div>
             </div>

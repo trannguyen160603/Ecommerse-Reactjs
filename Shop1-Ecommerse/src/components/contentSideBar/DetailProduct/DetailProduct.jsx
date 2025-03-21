@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import styles from './styles.module.scss';
 import SlideCommon from '@components/SlideCommon/SlideCommon';
@@ -15,7 +15,10 @@ import { IoMailOutline } from "react-icons/io5";
 import { CiLinkedin } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaSkype } from "react-icons/fa";
-
+import cls from 'classnames';
+import { addProductToCart } from '@/apis/CartService';
+import { ToastContext } from '@/contexts/ToastProvider';
+import Cookies from 'js-cookie'
 function DetailProduct() {
     const {
         container,
@@ -35,10 +38,15 @@ function DetailProduct() {
         labelBoxCompare,
         labelBoxWishlist,
         boxFooter,
-        boxIconFooter,
-        boxIcon
+        boxIcon,
+        isActive
     } = styles;
-    const { detailProduct } = useContext(SideBarContext);
+
+    const { detailProduct,setType, handleGetListProductCart,isLoading, setIsLoading, setIsOpen} = useContext(SideBarContext);
+    const [chooseSize, setChooseSize] = useState('');
+    const [quantity, setQuantity] = useState('1');
+    const {toast} = useContext(ToastContext);
+     const userId = Cookies.get('userId');
     const showOptions = [
         { label: '1', value: '1' },
         { label: '2', value: '2' },
@@ -48,8 +56,42 @@ function DetailProduct() {
         { label: '6', value: '6' },
         { label: '7', value: '7' }
     ];
+    const handleGetSize = (value) =>{
+        setChooseSize(value);      
+    }
+    const handleClearSize = () =>{
+        setChooseSize('');
+    }
+     const handleGetQuantity = (value) =>{
+        setQuantity(value)
+     }
+     const handleAddToCart = async () => {
+        if (isLoading) return; // Ngăn spam click
+        setIsLoading(true);    
 
-    console.log(detailProduct);
+        const data = {
+            userId,
+            productId: detailProduct?._id || '',
+            quantity,
+            size: chooseSize,
+            isMulTiple: true
+        };
+        console.log(data);
+        
+        setIsOpen(false)
+        addProductToCart(data)
+        .then((res) =>{
+            setIsOpen(true)
+            setType('cart');
+            toast.success('Product added to cart successfully!');
+            setIsLoading(false);
+            handleGetListProductCart(userId,'cart')
+        })
+        .catch((err) =>{
+             toast.error('Failed to add product to cart');
+             setIsLoading(false);
+        })
+    };
 
     return (
         <div className={container}>
@@ -57,22 +99,28 @@ function DetailProduct() {
             <div className={titleProduct}>{detailProduct.name}</div>
             <div className={priceProduct}>${detailProduct.price}</div>
             <div className={desProduct}>{detailProduct.description}</div>
-            <div className={labelSize}>Size:</div>
+            <div className={labelSize}>Size: {chooseSize}</div>
             <div className={boxSize}>
                 {detailProduct.size.map((item, index) => {
                     return (
-                        <div className={sizeProduct} key={index}>
+                        <div onClick={(() =>{
+                            handleGetSize(item.name)
+                        })} className={cls(sizeProduct,{
+                            [isActive] : item.name === chooseSize
+                        })} key={index}>
                             {item.name}
                         </div>
                     );
                 })}
             </div>
+            {chooseSize && <div onClick={handleClearSize} style={{fontSize:'14px', color:'#333333', fontWeight:'350', marginTop:'10px', cursor:'pointer'}}>Clear</div>}
             <div className={boxAddToCart}>
-                <SelectBox options={showOptions} type='show' />
+                <SelectBox options={showOptions} type='show' defaultValue ={quantity} getValue = {handleGetQuantity}/>
                 <div>
                     <MyButton
+                        onClick={handleAddToCart}
                         content={
-                            <div className={boxBtn}>
+                            <div className={boxBtn} >
                                 <PiShoppingCartLight
                                     style={{ fontSize: '15px' }}
                                 />{' '}

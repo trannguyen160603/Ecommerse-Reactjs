@@ -17,10 +17,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://be-project-reactjs.onrender.com',
+        target: 'https://be-project-reactjs.vercel.app/api/v1',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, '/api/v1'),
+        rewrite: (path) => path.replace(/^\/api/, ''),
+
       },
     },
     watch: {

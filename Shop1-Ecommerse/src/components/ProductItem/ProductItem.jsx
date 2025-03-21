@@ -1,3 +1,4 @@
+
 import styles from './styles.module.scss';
 import { TfiReload } from "react-icons/tfi";
 import { PiShoppingCartLight } from "react-icons/pi";
@@ -10,7 +11,8 @@ import Cookies from 'js-cookie';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/CartService';
-// import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import {  useNavigate } from 'react-router-dom';
+
 function ProductItem({
     src,
     prevSrc,
@@ -39,84 +41,95 @@ function ProductItem({
     const userId = Cookies.get('userId');
     const { setIsOpen, setType, handleGetListProductCart, setDetailProduct } = useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
-    const [ isLoading, setIsLoading ] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const handleChooseSize = size => {
+    const handleNavigate = () =>{
+        console.log(details._id);
+        const path = `/product/${details._id}`;
+        console.log(path);
+        
+                
+    }
+    const handleChooseSize = (size) => {
         setSizeChoose(size);
     };
 
-    const handleClearSize = size => {
+    const handleClearSize = () => {
         setSizeChoose('');
     };
-    const handleShowDetailProductSideBar = () =>{
+
+    const handleShowDetailProductSideBar = () => {
         setIsOpen(true);
         setType('detail');
         setDetailProduct(details);
     };
 
     const handleAddToCart = async () => {
+        if (isLoading) return; // Ngăn spam click
+        setIsLoading(true);
+
         if (!userId) {
             setIsOpen(true);
             setType('login');
             toast.warning('Please login to add products to cart!');
+            setIsLoading(false);
             return;
         }
 
         if (!sizeChoose) {
             toast.warning('Please choose size');
+            setIsLoading(false);
             return;
         }
 
         const data = {
             userId,
             productId: details?._id || '',
-            quality: 1,
-            size: sizeChoose
+            quantity: 1,
+            size: sizeChoose,
         };
-        console.log(data);
         
-        setIsLoading(true);
+
         addProductToCart(data)
-            .then(res => {
-                toast.success('Product added to cart successfully!');
-                setIsOpen(true);
-                setType('cart');
-                setIsLoading(false);
-                handleGetListProductCart(userId,'cart');
-            })
-            .catch(err => {
-                toast.error('Failed to add product to cart');
-                setIsLoading(false);
-            });
+        .then((res) =>{
+            setIsOpen(true)
+            setType('cart');
+            toast.success('Product added to cart successfully!');
+            setIsLoading(false);
+            handleGetListProductCart(userId,'cart')
+        })
+        .catch((err) =>{
+             toast.error('Failed to add product to cart');
+             setIsLoading(false);
+        })
     };
 
     return (
-        <div className={containerItem}>
+        <div className={containerItem} >
             <div className={boxImg}>
-                <img src={src} alt='' />
-                <img src={prevSrc} alt='' className={showImgWhenHover} />
+                <img src={src} alt=''/>
+                <img src={prevSrc} alt='' onClick={handleNavigate} className={showImgWhenHover} />
 
                 <div className={ShowFuncHover}>
                     <div className={boxIcon}>
-                        <PiShoppingCartLight style={{fontSize:'20px'}}/>
+                        <PiShoppingCartLight style={{ fontSize: '20px' }} />
                     </div>
                     <div className={boxIcon}>
-                        <BsHeart/>
+                        <BsHeart />
                     </div>
                     <div className={boxIcon}>
-                        <TfiReload/>
+                        <TfiReload />
                     </div>
                     <div className={boxIcon} onClick={handleShowDetailProductSideBar}>
-                        <IoEyeOutline style={{fontSize:'20px'}}/>
+                        <IoEyeOutline style={{ fontSize: '20px' }} />
                     </div>
                 </div>
                 {!isHomePage && (
                     <div className={boxSize}>
                         {details?.size?.map((item, index) => (
                             <div
-                                onClick={() => {
-                                    handleChooseSize(item.name);
-                                }}
+                                onClick={() => handleChooseSize(item.name)}
                                 className={cls(size, {
                                     [isActiveSize]: sizeChoose === item.name
                                 })}
@@ -128,16 +141,11 @@ function ProductItem({
                     </div>
                 )}
                 {sizeChoose && (
-                    <div
-                        className={clearSize}
-                        onClick={() => {
-                            handleClearSize();
-                        }}
-                    >
-                        clear
+                    <div className={clearSize} onClick={handleClearSize}>
+                        Clear
                     </div>
                 )}
-                <div className={cls(title, textCenter && 'textCenter')}>
+                <div className={cls(title, textCenter && 'textCenter')} onClick={handleNavigate}>
                     {name}
                 </div>
                 <div style={{ marginTop: '10px' }}>
@@ -158,14 +166,7 @@ function ProductItem({
                         <div className={btnCart}>
                             <MyButton
                                 onClick={handleAddToCart}
-                                disabled={isLoading} // Ngăn bấm nút khi đang loading
-                                // content={
-                                //     isLoading ? (
-                                //         <LoadingTextCommon />
-                                //     ) : (
-                                //         'ADD TO CART'
-                                //     )
-                                // }
+                                disabled={isLoading}
                                 content='ADD TO CART'
                             />
                         </div>

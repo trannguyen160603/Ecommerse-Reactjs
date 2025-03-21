@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 // import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 
-function ItemProduct(
+function ItemProduct({
     src,
     nameProduct,
     priceProduct,
@@ -14,7 +14,7 @@ function ItemProduct(
     quantity,
     productId,
     userId
-) {
+}) {
     const { title, price, container, boxContent, boxClose, size, overlayLoading } = styles;
     const [isDelete, setIsDelete] = useState(false);
     const {handleGetListProductCart} = useContext(SideBarContext);

@@ -4,8 +4,9 @@
 .container{
     @include flex_box_custom(center, center, 7px);
     flex-direction: column;
-    margin: 20px;
+    margin-top: 20px;
     color: $thr_color;
+    
 
     .headIcon{
         font-size: 25px;

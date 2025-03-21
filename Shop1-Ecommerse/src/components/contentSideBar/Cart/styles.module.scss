@@ -4,8 +4,8 @@
 .container{
     @include flex_box_custom(space-between,unset , 0px);
     flex-direction: column;
-    padding: 20px 20px 0px 20px; 
-    height: 95%;
+    padding: 30px 20px 0px 20px; 
+    // height: 95%;
 
     .total{
         @include flex_box_custom(space-between,center , 0px);
@@ -48,6 +48,7 @@
 
         flex-grow: 1;
         flex-direction: column;
+        
     }
 }
 
