@@ -7,10 +7,14 @@ import { TfiReload } from 'react-icons/tfi';
 import { BsHeart } from 'react-icons/bs';
 import PaymentMethods from '@components/PaymentMethods/PaymentMethods';
 import AccordionMenu from '@components/AccordionMenu/index';
-import { useContext, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import InformationProduct from '@pages/DetailProduct/components/Information';
 import ReviewProduct from '@pages/DetailProduct/components/Review';
-import { SideBarContext } from '@/contexts/SideBarProvider';
+import { getDetailProduct, getRelatedProduct } from '@/apis/productService';
+import { useParams } from 'react-router-dom';
+import LoadingTextCommon from '@components/LoadingTextCommo/LoadingTextCommo';
+import SlideCommon from '@components/SlideCommon/SlideCommon';
+import MyFooter from '@components/Footer/Footer';
 
 const tempDataSize = [
     { name: 'M', amount: '1000' },
@@ -43,12 +47,19 @@ function DetailProduct() {
         boxOrSide,
         addFunction,
         info,
-        activeDisableBtn
+        activeDisableBtn,
+        loading,
+        titleRelated
     } = styles;
     const [menuSelected, setMenuSelected] = useState(1);
 
     const [chooseSize, setChooseSize] = useState('');
     const [isQuantity, setIsQuantity] = useState(1);
+    const [data, setData] = useState();
+    const [relatedData, setRelatedData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const param = useParams();
+    
 
     const dataAccordionMenu = [
         {
@@ -72,131 +83,129 @@ function DetailProduct() {
         if(isQuantity < 1 ) return;
         setIsQuantity((prev) => type === PLUS ? (prev +=1) : isQuantity === 1 ? 1 : (prev -= 1));
     };
+
+    const fetchDataDetail = async (id) =>{
+        setIsLoading(true);
+        try{
+            const data = await getDetailProduct(id);
+            setData(data);        
+            setIsLoading(false)    
+        }catch(error){
+            console.log(error);
+            setIsLoading(false)    
+            
+        }
+    };
+
+    const fetchDataRelatedProduct = async (id) =>{
+        setIsLoading(true)
+        try{
+            setIsLoading(false)    
+            const data = await getRelatedProduct(id);
+            setRelatedData(data);            
+        }catch(error){
+            setIsLoading(false)    
+            console.log(error);
+            
+        }
+    }
+
+    useEffect(() =>{
+        if(param.id){
+            fetchDataDetail(param.id);
+            fetchDataRelatedProduct(param.id);
+        }
+    },[param]);
+
+    console.log(data);
+    
     return (
         <div>
             <MyHeader />
+            
             <div className={container}>
-                <MainLayout>
-                    <div className={navigateSection}>
-                        <div>Home {'>'} Men</div>
-                        <div style={{ cursor: 'pointer' }}>
-                            {' '}
-                            {'<'}Return to previous page
-                        </div>
+            <MainLayout>
+                <div className={navigateSection}>
+                    <div>Home {'>'} Men</div>
+                    <div style={{ cursor: 'pointer' }}>
+                        {' '}
+                        {'<'}Return to previous page
+                    </div>
+                </div>
+
+                <div className={contentSection}>
+                    <div className={imgBox}>
+                        {data?.images.map((src) =>{
+                           return <img src={src} alt="" />
+                        })}                     
                     </div>
 
-                    <div className={contentSection}>
-                        <div className={imgBox}>
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt=''
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt=''
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt=''
-                            />
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-                                alt=''
-                            />
-                        </div>
+                    {isLoading ? (<div className={loading}><LoadingTextCommon/></div>) :(
                         <div className={contentBox}>
-                            <div className={name}>10K Yellow Gold</div>
-                            <div className={price}>$99.99</div>
-                            <div className={des}>
-                                Amet, elit tellus, nisi odio velit ut. Euismod
-                                sit arcu, quisque arcu purus orci leo.{' '}
+                        <div className={name}>{data?.name}</div>
+                        <div className={price}>${data?.price}</div>
+                        <div className={des}>
+                            {data?.description}
+                        </div>
+                        <div className={labelSize}>Size: {chooseSize}</div>
+                        <div className={boxSize}>
+                            {data?.size.map((itemSize, index) => {
+                                return (
+                                    <div
+                                        className={size}
+                                        key={index}
+                                        onClick={() => {
+                                            handleSelectSize(itemSize.name);
+                                        }}
+                                    >
+                                        {itemSize.name}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        {chooseSize && (
+                            <div
+                                onClick={handleClearSize}
+                                style={{
+                                    fontSize: '14px',
+                                    color: '#333333',
+                                    fontWeight: '350',
+                                    marginTop: '10px',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Clear
                             </div>
-                            <div className={labelSize}>Size: {chooseSize}</div>
-                            <div className={boxSize}>
-                                {tempDataSize.map((itemSize, index) => {
-                                    return (
-                                        <div
-                                            className={size}
-                                            key={index}
-                                            onClick={() => {
-                                                handleSelectSize(itemSize.name);
-                                            }}
-                                        >
-                                            {itemSize.name}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            {chooseSize && (
+                        )}
+
+                        <div className={functionInfo}>
+                            <div className={count}>
                                 <div
-                                    onClick={handleClearSize}
-                                    style={{
-                                        fontSize: '14px',
-                                        color: '#333333',
-                                        fontWeight: '350',
-                                        marginTop: '10px',
-                                        cursor: 'pointer'
+                                    className={minus}
+                                    onClick={() => {
+                                        handleSetQuantity(MINUS);
                                     }}
                                 >
-                                    Clear
+                                    -
                                 </div>
-                            )}
-
-                            <div className={functionInfo}>
-                                <div className={count}>
-                                    <div
-                                        className={minus}
-                                        onClick={() => {
-                                            handleSetQuantity(MINUS);
-                                        }}
-                                    >
-                                        -
-                                    </div>
-                                    <div className={quantity}>{isQuantity}</div>
-                                    <div
-                                        className={plus}
-                                        onClick={() => {
-                                            handleSetQuantity(PLUS);
-                                        }}
-                                    >
-                                        +
-                                    </div>
-                                </div>
-                                <div className={boxBtn}>
-                                    <MyButton
-                                        content={
-                                            <div>
-                                                <PiShoppingCartLight
-                                                    style={{ fontSize: '14px' }}
-                                                />{' '}
-                                                ADD TO CART
-                                            </div>
-                                        }
-                                        customClassname={
-                                            !chooseSize && activeDisableBtn
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div className={boxOr}>
-                                <div className={boxOrSide} />
+                                <div className={quantity}>{isQuantity}</div>
                                 <div
-                                    style={{ fontSize: '12px', color: '#555' }}
+                                    className={plus}
+                                    onClick={() => {
+                                        handleSetQuantity(PLUS);
+                                    }}
                                 >
-                                    OR
+                                    +
                                 </div>
-                                <div className={boxOrSide} />
                             </div>
-
-                            <div>
+                            <div className={boxBtn}>
                                 <MyButton
                                     content={
                                         <div>
                                             <PiShoppingCartLight
                                                 style={{ fontSize: '14px' }}
                                             />{' '}
-                                            BUY NOW
+                                            ADD TO CART
                                         </div>
                                     }
                                     customClassname={
@@ -204,52 +213,84 @@ function DetailProduct() {
                                     }
                                 />
                             </div>
-                            <div className={addFunction}>
-                                <div>
-                                    <BsHeart style={{ fontSize: '18px' }} />
-                                </div>
-                                <div>
-                                    <TfiReload style={{ fontSize: '18px' }} />
-                                </div>
-                            </div>
-
-                            <div>
-                                <PaymentMethods />
-                            </div>
-
-                            <div className={info}>
-                                <div>
-                                    Brand: <span>Brand 03</span>
-                                </div>
-                                <div>
-                                    SKU: <span>12345</span>
-                                </div>
-                                <div>
-                                    Category: <span>Pullovers</span>
-                                </div>
-                            </div>
-
-                            {dataAccordionMenu.map((item, index) => {
-                                return (
-                                    <AccordionMenu
-                                        titleMenu={item.titleMenu}
-                                        contentJsx={item.content}
-                                        key={index}
-                                        onClick={() => {
-                                            handleSetMenuSelected(item.id);
-                                        }}
-                                        isSelected={menuSelected === item.id}
-                                    />
-                                );
-                            })}
                         </div>
-                    </div>
 
-                    <div>
-                        <h2>Related products</h2>
+                        <div className={boxOr}>
+                            <div className={boxOrSide} />
+                            <div
+                                style={{ fontSize: '12px', color: '#555' }}
+                            >
+                                OR
+                            </div>
+                            <div className={boxOrSide} />
+                        </div>
+
+                        <div>
+                            <MyButton
+                                content={
+                                    <div>
+                                        <PiShoppingCartLight
+                                            style={{ fontSize: '14px' }}
+                                        />{' '}
+                                        BUY NOW
+                                    </div>
+                                }
+                                customClassname={
+                                    !chooseSize && activeDisableBtn
+                                }
+                            />
+                        </div>
+                        <div className={addFunction}>
+                            <div>
+                                <BsHeart style={{ fontSize: '18px' }} />
+                            </div>
+                            <div>
+                                <TfiReload style={{ fontSize: '18px' }} />
+                            </div>
+                        </div>
+
+                        <div>
+                            <PaymentMethods />
+                        </div>
+
+                        <div className={info}>
+                            <div>
+                                Brand: <span>Brand 03</span>
+                            </div>
+                            <div>
+                                SKU: <span>12345</span>
+                            </div>
+                            <div>
+                                Category: <span>Pullovers</span>
+                            </div>
+                        </div>
+
+                        {dataAccordionMenu.map((item, index) => {
+                            return (
+                                <AccordionMenu
+                                    titleMenu={item.titleMenu}
+                                    contentJsx={item.content}
+                                    key={index}
+                                    onClick={() => {
+                                        handleSetMenuSelected(item.id);
+                                    }}
+                                    isSelected={menuSelected === item.id}
+                                />
+                            );
+                        })}
                     </div>
-                </MainLayout>
-            </div>
+                    ) }
+
+                </div>
+
+                <div>
+                    <div className={titleRelated}>Related products</div>
+                    <SlideCommon data={relatedData} isProductItem showItem={4}/>
+                </div>
+            </MainLayout>
+        </div>
+        <MyFooter/>
+            
         </div>
     );
 }

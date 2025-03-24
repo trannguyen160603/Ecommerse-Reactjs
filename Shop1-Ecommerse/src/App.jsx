@@ -17,7 +17,7 @@ function App() {
                     {/* Quản lý trạng thái sidebar (đóng/mở, loại sidebar đang hiển thị). */}
                     <BrowserRouter>
                         <Sidebar />
-                        <Suspense fallback={<div>loading</div>}>
+                        <Suspense   >
                             <Routes>
                                 {' '}
                                 {/* render ra danh sách các routes*/}

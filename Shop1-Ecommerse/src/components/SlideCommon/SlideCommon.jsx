@@ -20,13 +20,14 @@ function SlideCommon({ data, isProductItem = false, showItem = 1}) {
 
     return (
         <Slider {...settings}>
-            {data.map((src, index) => {
+            {data.map((item, index) => {
+              const src = !item.image ? item.images[0] : item.image;
                 return (
                     <>
                         {isProductItem ? (
                             <ProductItem 
-                            src={item.image}
-                            prev={item.image[1]}
+                            src={src}
+                            prev={src}
                             name={item.name}
                             price={item.price}
                             details ={item}
