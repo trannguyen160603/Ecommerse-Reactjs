@@ -2,10 +2,10 @@ import styles from '../styles.module.scss';
 import { SideBarContext } from '@/contexts/SideBarProvider'; // Import Context
 import { useContext, useState } from 'react';
 import { StoreContext } from '@/contexts/storeProvider';
-import Cookies from 'js-cookie';
+import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
-function Menu({ content, href }) {
-    const { menu, subMenu } = styles;
+function Menu({ content, href, isFooter }) {
+    const { menu, subMenu, menuFooter} = styles;
     const { userInfo, handleLogOut } = useContext(StoreContext);
     const { setIsOpen, setType } = useContext(SideBarContext); // Lấy từ Context
     const [isShowSubMenu, setIsShowSubMenu] = useState(false);
@@ -27,7 +27,7 @@ function Menu({ content, href }) {
             return `Hello: ${userInfo?.username}`;
         } else {
             return content;
-        }
+        }        
     };
 
     const handleHover = () => {
@@ -39,7 +39,10 @@ function Menu({ content, href }) {
     
     return (
         <div
-            className={menu}
+            // className={`${menu} ${isFooter ? menuFooter : ''}`}
+            className={cls(menu, {
+                [menuFooter] : isFooter
+            })}
             href={href}
             onMouseEnter={handleHover}
             onClick={handleClickShowLogin}

@@ -71,6 +71,13 @@
 
     }
 }
+.menuFooter {
+    color: $white-color !important;
+
+    &:hover {
+        color: $thr-color;
+    }
+}
 .menu::after{
     content:" ";
     display: block;

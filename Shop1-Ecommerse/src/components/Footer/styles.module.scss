@@ -19,7 +19,7 @@
     height: auto;
 }
 
-.menu{
+.footerMenu{
     @include flex_box_custom(space-between, center,40px);
     color: $white-color;
     font-size: 15px;

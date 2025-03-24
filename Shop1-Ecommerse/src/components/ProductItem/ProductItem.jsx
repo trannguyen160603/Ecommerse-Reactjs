@@ -45,10 +45,8 @@ function ProductItem({
     const navigate = useNavigate();
 
     const handleNavigate = () =>{
-        console.log(details._id);
         const path = `/product/${details._id}`;
-        console.log(path);
-        
+        navigate(path);
                 
     }
     const handleChooseSize = (size) => {

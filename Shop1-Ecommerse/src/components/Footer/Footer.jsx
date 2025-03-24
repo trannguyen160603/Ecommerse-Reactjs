@@ -3,7 +3,7 @@ import { dataMenuFooter } from "@components/Footer/constants";
 import Menu from "../Header/Menu/Menu";
 
 function MyFooter() {
-    const { container, containerImg, menu, menuItem, titleFooter, iconFooter, copyright } = styles; 
+    const { container, containerImg, footerMenu, menuItem, titleFooter, iconFooter, copyright } = styles; 
 
     return (
         <>
@@ -11,9 +11,9 @@ function MyFooter() {
                 <div className={containerImg}>
                     <img src="https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/marseille-logo.png" alt="" />
                 </div>
-                <div className={menu}>
+                <div className={footerMenu}>
                     {dataMenuFooter.map((item) => (
-                        <Menu className={menuItem} key={item.name} content={item.name} href={item.href} />
+                        <Menu className={menuItem} key={item.name} content={item.name} href={item.href} isFooter={true}/>
                     ))}
                 </div>
                 <div className={titleFooter}>Guaranteed safe ckeckout</div>
