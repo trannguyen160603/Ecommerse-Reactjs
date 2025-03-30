@@ -7,20 +7,20 @@ import { TfiReload } from 'react-icons/tfi';
 import { BsHeart } from 'react-icons/bs';
 import PaymentMethods from '@components/PaymentMethods/PaymentMethods';
 import AccordionMenu from '@components/AccordionMenu/index';
-import {  useEffect, useState } from 'react';
+import {  useContext, useEffect, useState } from 'react';
 import InformationProduct from '@pages/DetailProduct/components/Information';
 import ReviewProduct from '@pages/DetailProduct/components/Review';
 import { getDetailProduct, getRelatedProduct } from '@/apis/productService';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import LoadingTextCommon from '@components/LoadingTextCommo/LoadingTextCommo';
 import SlideCommon from '@components/SlideCommon/SlideCommon';
 import MyFooter from '@components/Footer/Footer';
+import { ToastContext } from '@/contexts/ToastProvider';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import Cookies from 'js-cookie';
+import { handleAddProductToCartCommon } from '@/Untils/helper';
+import { addProductToCart } from '@/apis/CartService';
 
-const tempDataSize = [
-    { name: 'M', amount: '1000' },
-    { name: 'L', amount: '1000' },
-    { name: 'S', amount: '1000' }
-];
 
 const PLUS = 'plus';
 const MINUS = 'minus';
@@ -49,15 +49,20 @@ function DetailProduct() {
         info,
         activeDisableBtn,
         loading,
-        titleRelated
+        titleRelated,
+        emptyData
     } = styles;
     const [menuSelected, setMenuSelected] = useState(1);
-
     const [chooseSize, setChooseSize] = useState('');
     const [isQuantity, setIsQuantity] = useState(1);
     const [data, setData] = useState();
     const [relatedData, setRelatedData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingBuyNow, setIsLoadingBuyNow] = useState(false);
+    const userId = Cookies.get('userId');
+    const { setIsOpen, setType, handleGetListProductCart } = useContext(SideBarContext);
+    const { toast } = useContext(ToastContext);
+    const navigate = useNavigate();
     const param = useParams();
     
 
@@ -83,8 +88,41 @@ function DetailProduct() {
         if(isQuantity < 1 ) return;
         setIsQuantity((prev) => type === PLUS ? (prev +=1) : isQuantity === 1 ? 1 : (prev -= 1));
     };
+    const handleAdd = async () => {
+        handleAddProductToCartCommon(
+            userId,
+            setIsOpen,
+            setType,
+            toast,
+            chooseSize,
+            param.id,
+            isQuantity,
+            setIsLoading,
+            handleGetListProductCart
+        );
+    };
+    const handleBuyNow = () =>{
+        const data = {
+            userId,
+            productId:param.id,
+            quantity,
+            size: chooseSize,
+        };
+        setIsLoadingBuyNow(true)
+        addProductToCart(data)
+        .then((res) =>{
+            navigate('cart');
+            toast.success('Product added to cart successfully!');
+            setIsLoadingBuyNow(false)
+       })
+        .catch((err) =>{
+             toast.error('Failed to add product to cart');
+             setIsLoadingBuyNow(false)
+        })
+    }
 
     const fetchDataDetail = async (id) =>{
+       
         setIsLoading(true);
         try{
             const data = await getDetailProduct(id);
@@ -100,11 +138,9 @@ function DetailProduct() {
     const fetchDataRelatedProduct = async (id) =>{
         setIsLoading(true)
         try{
-            setIsLoading(false)    
             const data = await getRelatedProduct(id);
             setRelatedData(data);            
         }catch(error){
-            setIsLoading(false)    
             console.log(error);
             
         }
@@ -117,7 +153,6 @@ function DetailProduct() {
         }
     },[param]);
 
-    console.log(data);
     
     return (
         <div>
@@ -132,15 +167,17 @@ function DetailProduct() {
                         {'<'}Return to previous page
                     </div>
                 </div>
-
-                <div className={contentSection}>
+                {isLoading ? (<div className={loading}><LoadingTextCommon/></div>) :(
+                
+                    <>
+                    {!data ? <div className={emptyData}>No result.... </div> : <div className={contentSection}>
                     <div className={imgBox}>
                         {data?.images.map((src) =>{
                            return <img src={src} alt="" />
                         })}                     
                     </div>
 
-                    {isLoading ? (<div className={loading}><LoadingTextCommon/></div>) :(
+                    
                         <div className={contentBox}>
                         <div className={name}>{data?.name}</div>
                         <div className={price}>${data?.price}</div>
@@ -198,7 +235,7 @@ function DetailProduct() {
                                     +
                                 </div>
                             </div>
-                            <div className={boxBtn}>
+                            <div className={boxBtn} onClick={() =>{handleAdd()}}>
                                 <MyButton
                                     content={
                                         <div>
@@ -208,6 +245,7 @@ function DetailProduct() {
                                             ADD TO CART
                                         </div>
                                     }
+                                    
                                     customClassname={
                                         !chooseSize && activeDisableBtn
                                     }
@@ -225,15 +263,15 @@ function DetailProduct() {
                             <div className={boxOrSide} />
                         </div>
 
-                        <div>
+                        <div className={boxBtn} onClick={handleBuyNow} >
                             <MyButton
-                                content={
+                                content={ isLoadingBuyNow ? (<LoadingTextCommon/>) : (
                                     <div>
                                         <PiShoppingCartLight
                                             style={{ fontSize: '14px' }}
                                         />{' '}
                                         BUY NOW
-                                    </div>
+                                    </div>)
                                 }
                                 customClassname={
                                     !chooseSize && activeDisableBtn
@@ -279,9 +317,9 @@ function DetailProduct() {
                             );
                         })}
                     </div>
-                    ) }
-
-                </div>
+                </div>}
+                    </>
+                 ) }
 
                 <div>
                     <div className={titleRelated}>Related products</div>

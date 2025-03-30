@@ -55,6 +55,7 @@ export const SideBarProvider = ({ children }) => {
                 setIsLoading,
                 detailProduct,
                 setDetailProduct,
+                userId
             }}
         >
             {children}

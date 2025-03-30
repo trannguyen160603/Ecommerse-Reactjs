@@ -2,11 +2,16 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { SlArrowLeft } from 'react-icons/sl';
-import { SlArrowRight } from 'react-icons/sl';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import './styles.css';
 import ProductItem from '@components/ProductItem/ProductItem';
-function SlideCommon({ data, isProductItem = false, showItem = 1}) {
+
+function SlideCommon({ data = [], isProductItem = false, showItem = 1 }) {
+    if (!Array.isArray(data) || data.length === 0) {
+        console.warn("SlideCommon received empty or invalid data:", data);
+        return <p>No data available</p>;
+    }
+
     var settings = {
         dots: true,
         infinite: true,
@@ -16,26 +21,24 @@ function SlideCommon({ data, isProductItem = false, showItem = 1}) {
         nextArrow: <SlArrowRight />,
         prevArrow: <SlArrowLeft />
     };
-    console.log(data);
 
     return (
         <Slider {...settings}>
             {data.map((item, index) => {
-              const src = !item.image ? item.images[0] : item.image;
-                return (
-                    <>
-                        {isProductItem ? (
-                            <ProductItem 
-                            src={src}
-                            prev={src}
-                            name={item.name}
-                            price={item.price}
-                            details ={item}
-                            />
-                        ) : (
-                            <img src={src} key={index} />
-                        )}
-                    </>
+                if (!item) return null;
+                const src = item?.image || (item?.images?.length ? item.images[0] : 'fallback-image-url.jpg');
+
+                return isProductItem ? (
+                    <ProductItem 
+                        key={index}
+                        src={src}
+                        prev={src}
+                        name={item.name || "No Name"}
+                        price={item.price || "0"}
+                        details={item}
+                    />
+                ) : (
+                    <img key={index} src={src} alt="Product" />
                 );
             })}
         </Slider>

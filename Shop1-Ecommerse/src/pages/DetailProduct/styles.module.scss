@@ -216,6 +216,7 @@
                 color: $primary-color;
                 font-size: 18px;
                 font-weight: 350; 
+                cursor: pointer;
             }
         }
     }
@@ -279,4 +280,11 @@
     @include flex_box_custom(center, center, 0px);
     font-weight: 350;
     font-size: 25px;
+}
+.emptyData{
+    height: 977px;
+    @include flex_box_custom(center, center, 0px);
+    color: $primary-color;
+    font-size: 14px;
+    font-weight: 350;
 }

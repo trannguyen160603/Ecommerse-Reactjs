@@ -1,7 +1,9 @@
+@import '@styles/__mixin.module.scss';
 
 
 .rotate{
     animation: loading 1s linear infinite;
+
     @keyframes loading {
         0%{
             transform: rotate(0);

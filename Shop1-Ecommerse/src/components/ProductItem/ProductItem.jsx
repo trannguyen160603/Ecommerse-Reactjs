@@ -1,8 +1,7 @@
-
 import styles from './styles.module.scss';
-import { TfiReload } from "react-icons/tfi";
-import { PiShoppingCartLight } from "react-icons/pi";
-import { BsHeart } from "react-icons/bs";
+import { TfiReload } from 'react-icons/tfi';
+import { PiShoppingCartLight } from 'react-icons/pi';
+import { BsHeart } from 'react-icons/bs';
 import { IoEyeOutline } from 'react-icons/io5';
 import cls from 'classnames';
 import MyButton from '@components/Button/Button';
@@ -11,7 +10,8 @@ import Cookies from 'js-cookie';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import { addProductToCart } from '@/apis/CartService';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { handleAddProductToCartCommon } from '@/Untils/helper';
 
 function ProductItem({
     src,
@@ -39,17 +39,17 @@ function ProductItem({
 
     const [sizeChoose, setSizeChoose] = useState('');
     const userId = Cookies.get('userId');
-    const { setIsOpen, setType, handleGetListProductCart, setDetailProduct } = useContext(SideBarContext);
+    const { setIsOpen, setType, handleGetListProductCart, setDetailProduct } =
+        useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleNavigate = () =>{
+    const handleNavigate = () => {
         const path = `/product/${details._id}`;
         navigate(path);
-                
-    }
-    const handleChooseSize = (size) => {
+    };
+    const handleChooseSize = size => {
         setSizeChoose(size);
     };
 
@@ -64,50 +64,29 @@ function ProductItem({
     };
 
     const handleAddToCart = async () => {
-        if (isLoading) return; // Ngăn spam click
-        setIsLoading(true);
-
-        if (!userId) {
-            setIsOpen(true);
-            setType('login');
-            toast.warning('Please login to add products to cart!');
-            setIsLoading(false);
-            return;
-        }
-
-        if (!sizeChoose) {
-            toast.warning('Please choose size');
-            setIsLoading(false);
-            return;
-        }
-
-        const data = {
+        handleAddProductToCartCommon(
             userId,
-            productId: details?._id || '',
-            quantity: 1,
-            size: sizeChoose,
-        };
-        
-
-        addProductToCart(data)
-        .then((res) =>{
-            setIsOpen(true)
-            setType('cart');
-            toast.success('Product added to cart successfully!');
-            setIsLoading(false);
-            handleGetListProductCart(userId,'cart')
-        })
-        .catch((err) =>{
-             toast.error('Failed to add product to cart');
-             setIsLoading(false);
-        })
+            setIsOpen,
+            setType,
+            toast,
+            sizeChoose,
+            details._id,
+            1,
+            setIsLoading,
+            handleGetListProductCart
+        );
     };
 
     return (
-        <div className={containerItem} >
+        <div className={containerItem}>
             <div className={boxImg}>
-                <img src={src} alt=''/>
-                <img src={prevSrc} alt='' onClick={handleNavigate} className={showImgWhenHover} />
+                <img src={src} alt='' />
+                <img
+                    src={prevSrc}
+                    alt=''
+                    onClick={handleNavigate}
+                    className={showImgWhenHover}
+                />
 
                 <div className={ShowFuncHover}>
                     <div className={boxIcon}>
@@ -119,7 +98,10 @@ function ProductItem({
                     <div className={boxIcon}>
                         <TfiReload />
                     </div>
-                    <div className={boxIcon} onClick={handleShowDetailProductSideBar}>
+                    <div
+                        className={boxIcon}
+                        onClick={handleShowDetailProductSideBar}
+                    >
                         <IoEyeOutline style={{ fontSize: '20px' }} />
                     </div>
                 </div>
@@ -143,7 +125,10 @@ function ProductItem({
                         Clear
                     </div>
                 )}
-                <div className={cls(title, textCenter && 'textCenter')} onClick={handleNavigate}>
+                <div
+                    className={cls(title, textCenter && 'textCenter')}
+                    onClick={handleNavigate}
+                >
                     {name}
                 </div>
                 <div style={{ marginTop: '10px' }}>
