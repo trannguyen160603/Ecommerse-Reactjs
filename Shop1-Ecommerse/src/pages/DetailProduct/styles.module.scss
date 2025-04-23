@@ -4,12 +4,6 @@
 .container{
     padding-top: 85px;
 
-    .navigateSection{
-        @include flex_box_custom(space-between,center, 0px);
-        color: $second-color;
-        font-size: 14px;
-        font-weight: 350;
-    }
     
     .contentSection{
         @include flex_box_custom(unset,flex-start, 20px);

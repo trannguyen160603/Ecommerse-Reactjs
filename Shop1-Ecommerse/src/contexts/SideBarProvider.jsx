@@ -36,11 +36,11 @@ export const SideBarProvider = ({ children }) => {
     }, [userId]);
 
     // Khi mở Sidebar, luôn cập nhật giỏ hàng
-    useEffect(() => {
-        if (isOpen) {
-            handleGetListProductCart(userId, 'cart');
-        }
-    }, [isOpen]);
+    // useEffect(() => {
+    //     if (isOpen) {
+    //         handleGetListProductCart(userId, 'cart');
+    //     }
+    // }, [isOpen]);
 
     return (
         <SideBarContext.Provider
@@ -55,7 +55,8 @@ export const SideBarProvider = ({ children }) => {
                 setIsLoading,
                 detailProduct,
                 setDetailProduct,
-                userId
+                userId,
+                setListProductCart
             }}
         >
             {children}

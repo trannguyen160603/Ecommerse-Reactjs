@@ -7,6 +7,7 @@ import { useContext, useEffect } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import cls from 'classnames';
 import { useNavigate } from 'react-router-dom';
+import LoadingTextCommon from '@components/LoadingTextCommo/LoadingTextCommo';
 
 function Cart() {
     const {
@@ -14,7 +15,6 @@ function Cart() {
         BoxBtn,
         total,
         containerListProductCart,
-        overlayLoading,
         isEmpty,
         boxEmpty,
         textEmpty,
@@ -56,7 +56,7 @@ function Cart() {
             <HeaderSideBar icon={<PiShoppingCartLight />} title='CART' />
 
             {isLoading ? (
-                <p>Loading cart...</p>
+                <LoadingTextCommon/>
             ) : listProductCart.length > 0 ? (
                 <div>
                     <div className={containerListItem}>

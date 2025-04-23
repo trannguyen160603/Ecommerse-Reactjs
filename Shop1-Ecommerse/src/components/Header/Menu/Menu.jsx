@@ -14,11 +14,14 @@ function Menu({ content, href, isFooter }) {
 
     const handleClickShowLogin = () => {
         if (content === 'Sign in' && !userInfo) {
-            setType('login'); // Thay đ��i type của SidebarProvider để hiển thị Login Sidebar
+            setType('login'); // Thay đoi type của SidebarProvider để hiển thị Login Sidebar
             setIsOpen(true); // Mở Sidebar  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
         }
         if(content === 'Our Shop'){
             navigate('/Shop')
+        }
+        if(content === 'About Us'){
+            navigate('/about-us')
         }
     };
 

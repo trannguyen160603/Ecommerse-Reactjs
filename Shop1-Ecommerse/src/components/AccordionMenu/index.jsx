@@ -6,7 +6,6 @@ import { HiMinus } from "react-icons/hi2";
 
 function AccordionMenu({titleMenu, contentJsx,onClick, isSelected}) {
     const { container, title, activeTitle , contentMenu, isVisibility, borderBottom} = styles;
-    // const [isSelected, setIsSelected] = useState(false);
 
     const handleToggle = () => {
         if(onClick){

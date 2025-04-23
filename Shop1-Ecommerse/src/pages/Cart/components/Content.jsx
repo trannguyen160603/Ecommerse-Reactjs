@@ -1,16 +1,17 @@
 import styles from '../styles.module.scss';
 import CartTable from '@pages/Cart/components/CartTable';
 import CartTotal from '@pages/Cart/components/cartTotal';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { addProductToCart, deleteItem } from '@/apis/CartService';
 import { PiShoppingCartLight } from "react-icons/pi";
 import MyButton from '@components/Button/Button';
 import {  useNavigate } from 'react-router-dom';
+import { getCart } from '@/apis/CartService';
 
 function Content() {
     const { containerContent, boxEmptyCart, titleEmptyCart, btnEmptyCart } = styles;
-    const { listProductCart, handleGetListProductCart, setIsLoading, isLoading, setIsOpen } =
+    const { listProductCart, handleGetListProductCart, setIsLoading, isLoading, setIsOpen, setListProductCart, userId } =
         useContext(SideBarContext);
     const navigate = useNavigate();
 
@@ -39,9 +40,23 @@ function Content() {
         navigate('/shop')
         if(setIsOpen){
             setIsOpen(false);
-        }
-        
-    }
+        }       
+    };
+
+    useEffect(() => {
+       if(userId){
+        getCart(userId)
+        .then(res => {
+            setListProductCart(res.data.data || []);
+            setIsLoading(false);
+        })
+        .catch(err => {
+            setListProductCart([]);
+            setIsLoading(false);
+        });
+       }
+    }, []);
+    
     
 
     return (

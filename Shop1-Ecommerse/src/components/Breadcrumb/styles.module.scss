@@ -1,0 +1,15 @@
+@import '@styles/__variable.module.scss';
+@import '@styles/__mixin.module.scss';
+
+
+.navigateSection{
+    @include flex_box_custom(space-between,center, 0px);
+    color: $second-color;
+    font-size: 14px;
+    font-weight: 350;
+
+    .navigateSectionLeft{
+        @include flex_box_custom(space-between,center, 10px);
+
+    }
+}

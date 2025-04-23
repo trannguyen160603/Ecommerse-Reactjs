@@ -6,17 +6,7 @@
     margin-top: 90px;
     margin-bottom: 90px;
 
-    .functionBox{
-        @include flex_box_custom(space-between, center, 0px);
-
-        color: $second-color;
-        font-size: 14px;
-        font-weight:350;
-
-        .btnBack{
-            cursor: pointer;
-        }
-    }
+    
 } 
 
 .containerBanner{

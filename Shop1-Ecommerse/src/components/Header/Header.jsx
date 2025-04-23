@@ -6,24 +6,32 @@ import logo from '@icon/Images/logo-retina.png';
 import { TfiReload } from "react-icons/tfi";
 import { PiShoppingCartLight } from "react-icons/pi";
 import { BsHeart } from "react-icons/bs";
-
 import useScrollHandling from '@/Hooks/useScrollHandling';
 import { useEffect, useState, useContext } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 function MyHeader() {
-    const { containerBoxIcon, containerMenu, containerHeader, containerBox , boxIconItem, container, topHeader, fixedHeader, boxCart, quantity} =
+    const { containerBoxIcon, containerMenu, containerHeader, containerBox , container, topHeader, fixedHeader, boxCart, quantity} =
         styles;
 
         const {scrollPosition} = useScrollHandling();
         const [fixedPosition, seFixedPosition] = useState(false);
         //biến bật tắt sidebar
-        const { isOpen, setIsOpen, type, setType, listProductCart } = useContext(SideBarContext);
+        const { isOpen, setIsOpen, type, setType, listProductCart, handleGetListProductCart, userId } = useContext(SideBarContext);
 
         const handleOpenSideBar = (type) =>{
             setIsOpen(true);
             setType(type);
         }
+
+        const OpenCartSideBar = () =>{
+            handleGetListProductCart(userId, 'cart');
+            handleOpenSideBar('cart');
+        }
+
+        const TotalItemCart = listProductCart.length ? listProductCart.reduce((acc, item) =>{
+            return (acc += item.quantity);
+        }, 0) : 0;
 
         useEffect(() =>{
                 seFixedPosition(scrollPosition > 80 ? true : false);
@@ -77,9 +85,9 @@ function MyHeader() {
                     />
                     <div className={boxCart}>
                     <PiShoppingCartLight style={{fontSize:"25px" ,cursor:"pointer"}}
-                    onClick={() => handleOpenSideBar('cart')}  // Click vào Cart Icon để mở Sidebar với type = cart  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
+                    onClick={() => OpenCartSideBar()}  // Click vào Cart Icon để mở Sidebar với type = cart  // chuyển sang SidebarProvider.jsx và SideBarProvider.jsx để xử lý
                     />
-                    <div className={quantity}>{listProductCart ? listProductCart.length : 0}</div>
+                    <div className={quantity}>{TotalItemCart}</div>
                 </div>
                     </div>
             </div>

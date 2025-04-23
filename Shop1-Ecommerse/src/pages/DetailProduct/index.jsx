@@ -11,7 +11,7 @@ import {  useContext, useEffect, useState } from 'react';
 import InformationProduct from '@pages/DetailProduct/components/Information';
 import ReviewProduct from '@pages/DetailProduct/components/Review';
 import { getDetailProduct, getRelatedProduct } from '@/apis/productService';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import LoadingTextCommon from '@components/LoadingTextCommo/LoadingTextCommo';
 import SlideCommon from '@components/SlideCommon/SlideCommon';
 import MyFooter from '@components/Footer/Footer';
@@ -20,6 +20,7 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import Cookies from 'js-cookie';
 import { handleAddProductToCartCommon } from '@/Untils/helper';
 import { addProductToCart } from '@/apis/CartService';
+import Breadcrumb from '@components/Breadcrumb/Breadcrumb';
 
 
 const PLUS = 'plus';
@@ -50,7 +51,8 @@ function DetailProduct() {
         activeDisableBtn,
         loading,
         titleRelated,
-        emptyData
+        emptyData,
+        navigateSectionLeft
     } = styles;
     const [menuSelected, setMenuSelected] = useState(1);
     const [chooseSize, setChooseSize] = useState('');
@@ -105,13 +107,15 @@ function DetailProduct() {
         const data = {
             userId,
             productId:param.id,
-            quantity,
+            quantity: isQuantity,
             size: chooseSize,
         };
+        console.log(data);
+        
         setIsLoadingBuyNow(true)
         addProductToCart(data)
         .then((res) =>{
-            navigate('cart');
+            navigate('/cart');
             toast.success('Product added to cart successfully!');
             setIsLoadingBuyNow(false)
        })
@@ -153,6 +157,14 @@ function DetailProduct() {
         }
     },[param]);
 
+    //navigate shop
+    const handleNavigateShop = () =>{
+        navigate('/shop');
+        if(setIsOpen){
+            setIsOpen(false)
+        }
+    }
+   
     
     return (
         <div>
@@ -160,13 +172,7 @@ function DetailProduct() {
             
             <div className={container}>
             <MainLayout>
-                <div className={navigateSection}>
-                    <div>Home {'>'} Men</div>
-                    <div style={{ cursor: 'pointer' }}>
-                        {' '}
-                        {'<'}Return to previous page
-                    </div>
-                </div>
+                    <Breadcrumb namePage= "Men" onPageClick= {handleNavigateShop}/>
                 {isLoading ? (<div className={loading}><LoadingTextCommon/></div>) :(
                 
                     <>

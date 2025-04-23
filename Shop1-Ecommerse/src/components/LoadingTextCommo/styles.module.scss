@@ -1,15 +1,20 @@
 @import '@styles/__mixin.module.scss';
 
 
-.rotate{
-    animation: loading 1s linear infinite;
 
-    @keyframes loading {
-        0%{
-            transform: rotate(0);
-        }100%{
-            transform: rotate(360deg);
+.containerLoading{
+    @include flex_box_custom(center, center, 0px);
+    margin-top: 40px;
+
+    .rotate{
+        animation: loading 1s linear infinite;
+    
+        @keyframes loading {
+            0%{
+                transform: rotate(0);
+            }100%{
+                transform: rotate(360deg);
+            }
         }
-        
     }
 }
