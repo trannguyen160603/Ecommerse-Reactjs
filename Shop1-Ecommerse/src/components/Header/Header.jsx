@@ -17,7 +17,7 @@ function MyHeader() {
         const {scrollPosition} = useScrollHandling();
         const [fixedPosition, seFixedPosition] = useState(false);
         //biến bật tắt sidebar
-        const { isOpen, setIsOpen, type, setType, listProductCart, handleGetListProductCart, userId } = useContext(SideBarContext);
+        const {  setIsOpen, setType, listProductCart, handleGetListProductCart, userId } = useContext(SideBarContext);
 
         const handleOpenSideBar = (type) =>{
             setIsOpen(true);

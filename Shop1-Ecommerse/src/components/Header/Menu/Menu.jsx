@@ -23,6 +23,9 @@ function Menu({ content, href, isFooter }) {
         if(content === 'About Us'){
             navigate('/about-us')
         }
+        if(content == 'Contacts'){
+            navigate('/contacts')
+        }
     };
 
     const handleRenderText = () => {

@@ -4,7 +4,7 @@ import InsIcon from '@icon/svgs/InsIcon.svg';
 import youIcon from '@icon/svgs/youIcon.svg';
 
 function BoxIcon({ type, href }) {
-    const {BoxIcon} = styles; // Đổi tên để tránh trùng với component
+    const {boxIcon} = styles; // Đổi tên để tránh trùng với component
 
     const handleRenderIcon = (type) => {
         switch (type) {
@@ -20,10 +20,8 @@ function BoxIcon({ type, href }) {
     };
 
     return (
-        <div className={BoxIcon} style={{ backgroundColor: "#333", borderRadius:"50px", padding: "7px", margin:"0px, 4px" }} >
-            {/* <a href={href} target="_blank" rel="noopener noreferrer"> */}
+        <div className={boxIcon}  >
                 <img src={handleRenderIcon(type)} alt={type} />
-            {/* </a> */}
         </div>
     );
 }

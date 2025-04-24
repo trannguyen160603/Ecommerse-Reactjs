@@ -41,19 +41,21 @@
 }
 .containerMenu{
     @include flex_box_custom(center, center, 30px);
-    cursor: pointer;
     color: #888;
 }
 .boxIconItem{
-    width: 26px;
-    height: 26px;
+    width: 30px;
+    height: 30px;
+
 }
 .boxIcon{
-    @include radius_common(50%);
     @include flex_box_custom(center, center, 0px);
+    border-radius: 50%;
     background-color: $primary-color;
-    width: 26px;
-    height: 26px;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    
 }
 .menu{
     cursor: pointer;
