@@ -1,0 +1,60 @@
+@import '@styles/__mixin.module.scss';
+@import '@styles/__variable.module.scss';
+
+.container{
+    @include flex_box_custom(center, space-between, 30px);
+    margin-top: 50px;
+    .dash{
+        width: 100%;
+        height: 1px;
+        background-color: #e1e1e1;
+        margin-bottom: 20px;
+    }
+
+    .leftBody{
+        width: 60%;
+
+        .name{
+            @include flex_box_custom(center, space-between, 30px);
+        }
+        p{
+            color: $primary-color;
+            font-weight: 400;
+            font-size: 14px;
+        }
+        
+
+        .hidden {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateY(-10px);
+            transition: all 0.5s ease-out;
+        }
+        
+        .show {
+            max-height: 200px;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+    }
+    .rightBody{
+        width: 40%;
+        height: 100vh;
+        border: 2px solid $primary-color;
+        padding: 10px 25px;
+        p{
+            color: $primary-color;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+    }
+
+}
