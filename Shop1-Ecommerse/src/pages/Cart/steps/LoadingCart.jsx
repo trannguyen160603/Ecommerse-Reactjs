@@ -4,9 +4,9 @@ import styles from '../styles.module.scss';
 function LoadingCart() {
     const {loading} = styles;
     return (
-        <div className={loading}>
+        
         <LoadingTextCommon/>
-        </div>
+       
       );
 }
 

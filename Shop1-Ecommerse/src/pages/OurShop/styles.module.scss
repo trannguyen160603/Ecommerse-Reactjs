@@ -61,13 +61,32 @@
     }
    
 }
-.selectBox{
-    border: 1px solid #e1e1e1;
-    padding: 5px;   
-    color: $second-color;
+.selectBox {
+    padding: 8px 25px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
-    font-weight: 350;
+    color: #333;
+    background-color: #fff;
+    appearance: none; /* ẩn mũi tên mặc định trên các trình duyệt */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20fill%3D'%23333'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20width%3D'24'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M7%2010l5%205%205-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1px center;
+    background-size: 16px 16px;
+    transition: border-color 0.3s ease;
+  
+    &:hover {
+      border-color: #999;
     }
+  
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+    }
+  }
+  
 .selectBox.show{
         width: 83px;
     }

@@ -27,6 +27,7 @@ export const SideBarProvider = ({ children }) => {
             });
     };
 
+    
     useEffect(() => {
         if (!userId) {
             console.warn("Không tìm thấy userId trong cookie!");

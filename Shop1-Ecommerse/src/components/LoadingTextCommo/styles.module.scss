@@ -1,20 +1,28 @@
-@import '@styles/__mixin.module.scss';
+@import '@styles/__variable.module.scss';
 
-
-
-.containerLoading{
-    @include flex_box_custom(center, center, 0px);
-    margin-top: 40px;
-
-    .rotate{
-        animation: loading 1s linear infinite;
-    
-        @keyframes loading {
-            0%{
-                transform: rotate(0);
-            }100%{
-                transform: rotate(360deg);
-            }
-        }
-    }
+.containerLoading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); 
+    backdrop-filter: blur(3px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10; 
+    border-radius: 8px; 
 }
+
+.rotate {
+    font-size: 3rem;
+    color: $primary-color;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

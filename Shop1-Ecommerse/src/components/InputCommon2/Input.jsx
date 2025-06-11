@@ -1,34 +1,57 @@
 import styles from './styles.module.scss';
 
-function InputCustom({ label, type, isRequired = false, placeholder }) {
-    const { container, labelCLS } = styles;
+function InputCustom({
+  label,
+  type,
+  dataOptions,
+  isRequired = false,
+  register,
+  isShowlabel = true,
+  isError = false,
+  placeholder
+}) {
+  const { container, labelCLS, error } = styles;
 
-    const renderInput = () => {
-        if (type === 'text') {
-            return <input type='text' placeholder={placeholder || label} />;
-        } else if (type === 'textArea') {
-            return <textarea placeholder={placeholder || label}  />;
-        } else {
-            return (
-                <select name='cars' id='cars'>
-                    <option value='volvo'>volvo</option>
-                    <option value='saab'>saab</option>
-                    <option value='mercedes'>mercedes</option>
-                    <option value='audi'>audi</option>
-                </select>
-            );
+  const renderInput = () => {
+    if (type === 'text') {
+      return (
+        <input
+          type="text"
+          className={isError ? error : ''}
+          placeholder={placeholder || label }
+          {...register}
+        />
+      );
+    } else if(type === 'textArea'){
+        return <textarea placeholder={placeholder || label } {...register}/>
         }
-    };
+     else {
+      return (
+        <select {...register} className={isError ? error : ''}>
+          <option value="" selected disabled hidden>
+            {label}
+          </option>
+          {dataOptions.map((item) => (
+            <option key={item.value} value={item.value}>
+              {item.label}
+            </option>
+          ))}
+        </select>
+      );
+    }
+  };
 
-    return (
-        <div className={container}>
-            <label className={labelCLS}>
-                {label}
-                {isRequired && <span>*</span>}
-            </label>
-            {renderInput()}
-        </div>
-    );
+  return (
+    <div className={container}>
+      {isShowlabel && (
+        <label className={labelCLS}>
+          {label} {isRequired && <span>*</span>}
+        </label>
+      )}
+
+      {renderInput()}
+    </div>
+  );
 }
 
 export default InputCustom;

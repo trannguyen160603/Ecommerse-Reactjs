@@ -1,57 +1,56 @@
 @import '@styles/__variable.module.scss';
 @import '@styles/__mixin.module.scss';
 
-.container{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 
-    .labelCLS{
-        font-size: 14px;
-        color: $thr-color;
-    }
-    span{
-        padding-left: 5px;
-    }
-    input{
-        padding: 0px 15px;
-        height: 35px;
-        border: 1px solid #e1e1e1;
-        margin-bottom: 15px;
-        font-size: 15px;
-        font-weight: 350;
-        &:focus{
-            outline: #333;
-            border: 1px solid #333;
-        }
-    }
+  .labelCLS {
+    font-size: 14px;
+    color: $thr_color;
+    margin-bottom: 5px;
+  }
 
-    textarea {
-        padding: 10px 15px;
-        min-height: 50px;
-        border: 1px solid #e1e1e1;
-        margin-bottom: 15px;
-        font-size: 15px;
-        font-weight: 350;
-        
+  .error {
+    border-color: red !important;
+  }
 
-        &:focus {
-            outline: #333;
-            border: 1px solid #333;
-        }
-    }
-    select{
-        padding: 6px 15px;
-        font-size: 15px;
-        font-weight: 350;
-        color: $thr-color;
-        margin-bottom: 15px;
-        border: 1px solid #e1e1e1;
+  input {
+    height: 37px;
+    padding: 0px 15px;
+    border: 1px solid #e1e1e1;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 350;
 
-        &:focus {
-            outline: #333;
-            border: 1px solid #333;
-        }
+    &:focus {
+      outline: #333;
+      border: 1px solid #333;
     }
-}   
+  }
+
+  select {
+    height: 37px;
+    padding: 0px 15px;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    font-weight: 350;
+
+    &:focus {
+      outline: #333;
+      border: 1px solid #333;
+    }
+  }
+  textarea{
+    height: 80px;
+    padding: 10px 15px;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    font-weight: 350;
+    &:focus {
+        outline: #333;
+        border: 1px solid #333;
+      }
+  }
+}
